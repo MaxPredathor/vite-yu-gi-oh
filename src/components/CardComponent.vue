@@ -34,6 +34,11 @@
 <style lang="scss" scoped>
     img{
         width: 100%;
+
+        &:hover{
+            transform: scale(200%);
+            transition: all 0.3s ease;
+        }
     }
     .card-text{
         background-color: hsla(104, 53%, 21%, 0.8);
