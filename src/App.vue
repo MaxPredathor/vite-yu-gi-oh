@@ -1,30 +1,35 @@
 <template>
-  <YuGiHeader />
-  <main class="container my-5">
-    <input type="number" v-model="store.endPoint.num" :Keyup.enter="getData()">
-    <div class="row">
-      <div class="text-dark my-div my-3 fw-bold fs-4">
-        Found {{ store.cardList.length }} cards
+  <LoaderComponent v-if="store.loaded"/>
+  <div v-else>
+    <YuGiHeader />
+    <main class="container my-5">
+      <input type="number" v-model="store.endPoint.num" :Keyup.enter="getData()">
+      <div class="row">
+        <div class="text-dark my-div my-3 fw-bold fs-4">
+          Found {{ store.cardList.length }} cards
+        </div>
+        <CardComponent class="my-card col-2"
+        :pic="card.card_images[0].image_url"
+        :title="card.name"
+        :cardType="card.type"
+        v-for="(card, index) in store.cardList" :key="index"/>
       </div>
-      <CardComponent class="my-card col-2"
-      :pic="card.card_images[0].image_url"
-      :title="card.name"
-      :cardType="card.type"
-      v-for="(card, index) in store.cardList" :key="index"/>
-    </div>
-  </main>
+    </main>
+  </div>
 </template>
 
 <script>
 import { store } from './data/store.js';
 import YuGiHeader from './components/YuGiHeader.vue';
 import CardComponent from './components/CardComponent.vue';
+import LoaderComponent from './components/LoaderComponent.vue';
 import axios from 'axios';
   export default {
     name: 'App',
     components: {
       YuGiHeader,
       CardComponent,
+      LoaderComponent,
     },
     data(){
       return{
