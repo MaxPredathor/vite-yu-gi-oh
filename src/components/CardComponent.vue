@@ -1,7 +1,7 @@
 <template>
     <div>
         <img :src="pic" alt="">
-        <div class="card-text">
+        <div class="card-text d-flex flex-column justify-content-between">
             <h4>{{ title }}</h4>
             <p>{{ cardType }}</p>
         </div>
@@ -36,12 +36,17 @@
         width: 100%;
     }
     .card-text{
-        background-color: hsla(104, 53%, 21%, 0.782);
-        min-height: 150px;
+        background-color: hsla(104, 53%, 21%, 0.8);
+        min-height: 100px;
         margin-bottom: 20px;
+        border-radius: 0 0 0.3em 0.3em;
+        color: black;
+        font-weight: 500;
+        text-align: center;
     }
     h4{
         text-wrap: balance;
+        color: white;
     }
 
 </style>

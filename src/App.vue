@@ -1,7 +1,7 @@
 <template>
   <YuGiHeader />
   <main class="container my-5">
-    <input type="number" v-model="endpoint.num">
+    <input type="number" v-model="store.endPoint.num" :Keyup.enter="getData()">
     <div class="row">
       <div class="text-dark my-div my-3 fw-bold fs-4">
         Found {{ store.cardList.length }} cards
@@ -34,8 +34,8 @@ import axios from 'axios';
     methods: {
       getData(){
         axios.get(`${store.apiUrl}`, {params: store.endPoint}).then((response) =>{
-          console.log(response.data.data);
           store.cardList = response.data.data
+          store.loaded = false
         })    
       },
     },
