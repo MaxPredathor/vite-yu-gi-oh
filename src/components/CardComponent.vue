@@ -35,7 +35,7 @@
     img{
         width: 100%;
 
-        &:hover{
+        &:active{
             transform: scale(200%);
             transition: all 0.3s ease;
         }
