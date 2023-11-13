@@ -3,7 +3,8 @@
   <div v-else>
     <YuGiHeader />
     <main class="container my-5">
-      <input type="number" v-model="store.endPoint.num" :Keyup.enter="getData()">
+      <input type="number" v-model="store.endPoint.num">
+      <button class="btn btn-success mx-3" @click="loadedTrue(), getData()">Cerca</button>
       <div class="row">
         <div class="text-dark my-div my-3 fw-bold fs-4">
           Found {{ store.cardList.length }} cards
@@ -43,6 +44,9 @@ import axios from 'axios';
           store.loaded = false
         })    
       },
+      loadedTrue(){
+        store.loaded = true
+      },
     },
     created(){
       this.getData() 
@@ -52,14 +56,14 @@ import axios from 'axios';
 
 <style lang="scss" scoped>
 @use './assets/styles/partials/variables' as *;
-  .my-div{
-    height: 40px;
-    width: 98.2%;
-    margin: auto;
-  }
-  input{
-    width: 25%
-  }
+    .my-div{
+      height: 40px;
+      width: 98.2%;
+      margin: auto;
+    }
+    input{
+      width: 25%
+    }
 
 
 </style>
