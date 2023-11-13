@@ -3,8 +3,10 @@
   <div v-else>
     <YuGiHeader />
     <main class="container my-5">
-      <input type="number" v-model="store.endPoint.num">
-      <button class="btn btn-success mx-3" @click="loadedTrue(), getData()">Cerca</button>
+      <div class="d-flex pt-4">
+        <input type="number" v-model="store.endPoint.num" @keyup.enter="loadedTrue(), getData()">
+        <button class="btn btn-success mx-3" @click="loadedTrue(), getData()">Cerca</button>
+      </div>
       <div class="row">
         <div class="text-dark my-div my-3 fw-bold fs-4">
           Found {{ store.cardList.length }} cards
