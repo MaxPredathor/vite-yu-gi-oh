@@ -19,5 +19,8 @@
     h1{
         padding: 30px 0px;
     }
+    div{
+        background-color: white;
+    }
 
 </style>

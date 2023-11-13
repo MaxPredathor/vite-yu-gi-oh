@@ -1,7 +1,11 @@
 <template>
   <YuGiHeader />
-  <main class="container">
+  <main class="container my-5">
+    <input type="number" v-model="endpoint.num">
     <div class="row">
+      <div class="text-dark my-div my-3 fw-bold fs-4">
+        Found {{ store.cardList.length }} cards
+      </div>
       <CardComponent class="my-card col-2"
       :pic="card.card_images[0].image_url"
       :title="card.name"
@@ -43,6 +47,14 @@ import axios from 'axios';
 
 <style lang="scss" scoped>
 @use './assets/styles/partials/variables' as *;
+  .my-div{
+    height: 40px;
+    width: 98.2%;
+    margin: auto;
+  }
+  input{
+    width: 25%
+  }
 
 
 </style>

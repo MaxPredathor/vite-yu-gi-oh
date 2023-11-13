@@ -36,9 +36,12 @@
         width: 100%;
     }
     .card-text{
-        background-color: aqua;
+        background-color: hsla(104, 53%, 21%, 0.782);
         min-height: 150px;
         margin-bottom: 20px;
+    }
+    h4{
+        text-wrap: balance;
     }
 
 </style>
