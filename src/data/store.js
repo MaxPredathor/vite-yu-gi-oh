@@ -1,5 +1,10 @@
 import { reactive } from "vue";
 
 export const store = reactive({
-  count: 0,
+  apiUrl: "https://db.ygoprodeck.com/api/v7/cardinfo.php",
+  endPoint: {
+    num: 20,
+    offset: 0,
+  },
+  cardList: [],
 });
