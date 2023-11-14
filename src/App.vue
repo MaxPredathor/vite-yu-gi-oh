@@ -6,7 +6,7 @@
       <div class="d-flex pt-4">
         <input type="number" v-model="store.endPoint.num" @keyup.enter="getData()">
         <button class="btn btn-success mx-3" @click="getData()">Cerca</button>
-        <!-- <button class="btn btn-danger mx-3" @click="getRandom">Get Random Card</button> -->
+        <button class="btn btn-danger mx-3" @click="getRandom">Get Random Card</button>
         <SelectComponent  @archetype-filter="filterArchetype"/>
       </div>
       <div class="row">
@@ -100,14 +100,6 @@ import axios from 'axios';
         }
 
       },
-      loadFalse(params){
-        if(params){
-          return
-        }else {
-          store.loaded = false
-        }
-
-      },
       getArchetype(){
         store.error = ""
         // store.loaded = true
@@ -123,25 +115,24 @@ import axios from 'axios';
             console.log(error);
           })
           .finally(function () {
-            this.loadFalse(this.params)
+            store.loaded = false
           });
       },
-      // getRandom(){
-      //   store.cardList = []
-      //   const randomUrl = store.apiUrl + store.random
-      //   axios.get(randomUrl)
-      //     .then(function (response) {
-      //       console.log(response)
-      //       store.cardList = response.data.data
-      //     })
-      //     .catch(function (error) {
-      //       // handle error
-      //       console.log(error);
-      //     })
-      //     .finally(function () {
-      //       store.loaded = false
-      //     });
-      // },
+       getRandom(){
+         store.cardList = []
+         const randomUrl = store.apiUrl + store.random
+         axios.get(randomUrl)
+           .then(function (response) {
+             console.log(response)
+             store.cardList = response.data.data
+           })
+           .catch(function (error) {
+             console.log(error);
+           })
+           .finally(function () {
+             store.loaded = false
+           });
+       },
     },
     created(){
       function getData(){
