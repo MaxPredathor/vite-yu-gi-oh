@@ -6,7 +6,7 @@
       <div class="d-flex pt-4">
         <input type="number" v-model="store.endPoint.num" @keyup.enter="getData()">
         <button class="btn btn-success mx-3" @click="getData()">Cerca</button>
-        <button class="btn btn-danger mx-3" @click="getRandom">Get Random Card</button>
+        <button class="btn btn-danger mx-3" @click="getRandom()">Get Random Card</button>
         <SelectComponent  @archetype-filter="filterArchetype"/>
       </div>
       <div class="row">
@@ -123,10 +123,11 @@ import axios from 'axios';
          const randomUrl = store.apiUrl + store.random
          axios.get(randomUrl)
            .then(function (response) {
-             console.log(response)
-             store.cardList = response.data.data
+             console.log(response.data)
+             store.cardList.push(response.data)
            })
            .catch(function (error) {
+              store.error = error.message
              console.log(error);
            })
            .finally(function () {

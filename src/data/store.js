@@ -4,6 +4,7 @@ export const store = reactive({
   apiUrl: "https://db.ygoprodeck.com/api/v7/",
   card: "cardinfo.php",
   archetypeUrl: "archetypes.php",
+  random: "randomcard.php",
   endPoint: {
     num: 120,
     offset: 0,
@@ -13,5 +14,4 @@ export const store = reactive({
   archetypeList: [],
   loaded: true,
   error: "",
-  random: "randomcard.php",
 });
