@@ -6,10 +6,11 @@
       <div class="d-flex pt-4">
         <input type="number" v-model="store.endPoint.num" @keyup.enter="loadedTrue(), getData()">
         <button class="btn btn-success mx-3" @click="loadedTrue(), getData()">Cerca</button>
+        <SelectComponent  @archetype-filter="filterArchetype"/>
       </div>
       <div class="row">
         <div class="alert alert-danger" v-if="store.error">
-          {{ error }}
+          {{ pippo.message }}
         </div>
         <div class="text-dark my-div my-3 fw-bold fs-4">
           Found {{ store.cardList.length }} cards
@@ -30,6 +31,7 @@ import { store } from './data/store.js';
 import YuGiHeader from './components/YuGiHeader.vue';
 import CardComponent from './components/CardComponent.vue';
 import LoaderComponent from './components/LoaderComponent.vue';
+import SelectComponent from './components/SelectComponent.vue';
 import axios from 'axios';
   export default {
     name: 'App',
@@ -37,34 +39,80 @@ import axios from 'axios';
       YuGiHeader,
       CardComponent,
       LoaderComponent,
+      SelectComponent,
     },
     data(){
       return{
         store,
+        params: null,
       }
     },
     methods: {
       getData(){
-        store.error = false
-        const url = store.apiUrl
+        store.error = ""
+        const url = store.apiUrl + store.card
         axios.get(url, {params: store.endPoint}).then((response) =>{
+          console.log(url, {params: store.card + store.endPoint})
           store.cardList = response.data.data
           console.log(response.data.data)
           store.loaded = false
         })
-        // .catch((error) => {
-        //   console.log(error)
-        //   store.error = true
+        // .catch((pippo) => {
+        //     console.log(pippo)
+        //     this.store.error = pippo.message
         // }).finally(() =>{
-        //   store.loaded = false
+        //     store.loaded = false
         // })
+
       },
       loadedTrue(){
         store.loaded = true
       },
+      getType(){
+        const typeUrl = store.apiUrl + store.archetypeUrl
+        axios.get(typeUrl)
+          .then(function (response) {
+            store.archetypeList = response.data
+            console.log(response.data)
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+          .finally(function () {
+            // always executed
+          });
+      },
+      filterArchetype(filter){
+        if(filter){
+          this.params = {
+            archetype: filter
+          }
+        }else{
+          this.params = null
+        }
+        this.getArchetype()
+      },
+      getArchetype(){
+        const typeUrl = store.apiUrl + store.card
+        axios.get(typeUrl, {params: this.params })
+          .then(function (response) {
+            store.cardList = response.data.data
+            console.log(response.data.data)
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+          .finally(function () {
+            // always executed
+          });
+
+      }
     },
     created(){
-      this.getData() 
+      this.getData()
+      this.getType()
     }
   }
 </script>

@@ -54,6 +54,7 @@
         color: black;
         font-weight: 500;
         text-align: center;
+        flex-grow: 1;
     }
     h4{
         text-wrap: balance;
