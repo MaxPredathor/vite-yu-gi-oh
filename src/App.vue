@@ -4,13 +4,14 @@
     <YuGiHeader />
     <main class="container my-5">
       <div class="d-flex pt-4">
-        <input type="number" v-model="store.endPoint.num" @keyup.enter="loadedTrue(), getData()">
-        <button class="btn btn-success mx-3" @click="loadedTrue(), getData()">Cerca</button>
+        <input type="number" v-model="store.endPoint.num" @keyup.enter="getData()">
+        <button class="btn btn-success mx-3" @click="getData()">Cerca</button>
+        <!-- <button class="btn btn-danger mx-3" @click="getRandom">Get Random Card</button> -->
         <SelectComponent  @archetype-filter="filterArchetype"/>
       </div>
       <div class="row">
         <div class="alert alert-danger" v-if="store.error">
-          {{ pippo.message }}
+          {{ store.error }}
         </div>
         <div class="text-dark my-div my-3 fw-bold fs-4">
           Found {{ store.cardList.length }} cards
@@ -49,26 +50,24 @@ import axios from 'axios';
     },
     methods: {
       getData(){
+        store.loaded = true
         store.error = ""
         const url = store.apiUrl + store.card
-        axios.get(url, {params: store.endPoint}).then((response) =>{
-          console.log(url, {params: store.card + store.endPoint})
-          store.cardList = response.data.data
-          console.log(response.data.data)
-          store.loaded = false
-        })
-        // .catch((pippo) => {
-        //     console.log(pippo)
-        //     this.store.error = pippo.message
-        // }).finally(() =>{
-        //     store.loaded = false
-        // })
-
-      },
-      loadedTrue(){
-        store.loaded = true
+        axios.get(url, {params: store.endPoint})
+          .then(function (response) {
+            store.cardList = response.data.data
+            console.log(response.data.data)
+          })
+          .catch(function (error) {
+            console.log(error);
+            store.error = error.message
+          })
+          .finally(function () {
+            store.loaded = false
+          });
       },
       getType(){
+        store.error = ""
         const typeUrl = store.apiUrl + store.archetypeUrl
         axios.get(typeUrl)
           .then(function (response) {
@@ -76,7 +75,7 @@ import axios from 'axios';
             console.log(response.data)
           })
           .catch(function (error) {
-            // handle error
+            store.error = error.message
             console.log(error);
           })
           .finally(function () {
@@ -86,14 +85,33 @@ import axios from 'axios';
       filterArchetype(filter){
         if(filter){
           this.params = {
-            archetype: filter
+            archetype: filter,
           }
         }else{
           this.params = null
         }
         this.getArchetype()
       },
+      loadTrue(params){
+        if(params){
+          return
+        }else {
+          store.loaded = true
+        }
+
+      },
+      loadFalse(params){
+        if(params){
+          return
+        }else {
+          store.loaded = false
+        }
+
+      },
       getArchetype(){
+        store.error = ""
+        // store.loaded = true
+        this.loadTrue(this.params)
         const typeUrl = store.apiUrl + store.card
         axios.get(typeUrl, {params: this.params })
           .then(function (response) {
@@ -101,18 +119,44 @@ import axios from 'axios';
             console.log(response.data.data)
           })
           .catch(function (error) {
-            // handle error
+            store.error = error.message
             console.log(error);
           })
           .finally(function () {
-            // always executed
+            this.loadFalse(this.params)
           });
-
-      }
+      },
+      // getRandom(){
+      //   store.cardList = []
+      //   const randomUrl = store.apiUrl + store.random
+      //   axios.get(randomUrl)
+      //     .then(function (response) {
+      //       console.log(response)
+      //       store.cardList = response.data.data
+      //     })
+      //     .catch(function (error) {
+      //       // handle error
+      //       console.log(error);
+      //     })
+      //     .finally(function () {
+      //       store.loaded = false
+      //     });
+      // },
     },
     created(){
-      this.getData()
-      this.getType()
+      function getData(){
+        const url = store.apiUrl + store.card
+        return axios.get(url, {params: store.endPoint})
+      }
+      function getType(){
+        const typeUrl = store.apiUrl + store.archetypeUrl
+        return axios.get(typeUrl)
+      }
+      Promise.all([getData(), getType()]).then((result) => {
+        store.cardList = result[0].data.data
+        store.archetypeList = result[1].data
+        store.loaded = false
+      })
     }
   }
 </script>

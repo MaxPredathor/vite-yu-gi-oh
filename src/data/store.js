@@ -13,4 +13,5 @@ export const store = reactive({
   archetypeList: [],
   loaded: true,
   error: "",
+  random: "randomcard.php",
 });
