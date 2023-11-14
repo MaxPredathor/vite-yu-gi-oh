@@ -1,9 +1,10 @@
 <template>
     <div>
         <img :src="pic" alt="">
-        <div class="card-text d-flex flex-column justify-content-between">
-            <h4>{{ title }}</h4>
+        <div class="card-text d-flex flex-column justify-content-evenly">
+            <h4 class=" fs-4">{{ title }}</h4>
             <p>{{ cardType }}</p>
+            <p class="fs-5">{{ archetype }}</p>
         </div>
     </div>
 </template>
@@ -26,6 +27,11 @@
             type: String,
             required: false,
             default: "No type Found"
+        },
+        archetype:{
+            type: String,
+            required: true,
+            default: "-"
         }
         },
     }
@@ -42,7 +48,7 @@
     }
     .card-text{
         background-color: hsla(104, 53%, 21%, 0.8);
-        min-height: 100px;
+        min-height: 150px;
         margin-bottom: 20px;
         border-radius: 0 0 0.3em 0.3em;
         color: black;

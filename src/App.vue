@@ -8,6 +8,9 @@
         <button class="btn btn-success mx-3" @click="loadedTrue(), getData()">Cerca</button>
       </div>
       <div class="row">
+        <div class="alert alert-danger" v-if="store.error">
+          {{ error }}
+        </div>
         <div class="text-dark my-div my-3 fw-bold fs-4">
           Found {{ store.cardList.length }} cards
         </div>
@@ -15,6 +18,7 @@
         :pic="card.card_images[0].image_url"
         :title="card.name"
         :cardType="card.type"
+        :archetype="card.archetype"
         v-for="(card, index) in store.cardList" :key="index"/>
       </div>
     </main>
@@ -41,10 +45,19 @@ import axios from 'axios';
     },
     methods: {
       getData(){
-        axios.get(`${store.apiUrl}`, {params: store.endPoint}).then((response) =>{
+        store.error = false
+        const url = store.apiUrl
+        axios.get(url, {params: store.endPoint}).then((response) =>{
           store.cardList = response.data.data
+          console.log(response.data.data)
           store.loaded = false
-        })    
+        })
+        // .catch((error) => {
+        //   console.log(error)
+        //   store.error = true
+        // }).finally(() =>{
+        //   store.loaded = false
+        // })
       },
       loadedTrue(){
         store.loaded = true

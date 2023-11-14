@@ -8,4 +8,5 @@ export const store = reactive({
   },
   cardList: [],
   loaded: true,
+  error: false,
 });
